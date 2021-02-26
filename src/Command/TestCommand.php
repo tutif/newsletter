@@ -11,6 +11,7 @@ use App\Storage\SurveyStorageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\VarDumper\VarDumper;
 
 class TestCommand extends Command
@@ -35,7 +36,11 @@ class TestCommand extends Command
         $subscriber = new Subscriber('peter@example.com', 'Peter');
         $this->subscriberStorage->persist($subscriber);
 
-        $this->subscriberStorage->persist(new Subscriber('arnoldas@example.com', 'Arnoldas!'));
+        $this->subscriberStorage->persist(new Subscriber('arnoldas@example.com', 'Arnoldas'));
+        $this->subscriberStorage->persist(
+            (new Subscriber('arnoldas@example.com', 'Peter S.'))
+                ->setId($subscriber->getId())
+        );
 
         $survey = (new Survey())
             ->setCategories(['foo', 'bar'])
@@ -43,14 +48,12 @@ class TestCommand extends Command
         ;
         $this->surveyStorage->persist($survey);
 
-        $survey2 = (new Survey())
-            ->setCategories(['zzz', 'kkk'])
-            ->setSubscriberId($subscriber->getId())
-        ;
-        $this->surveyStorage->persist($survey2);
+        $symfonyStyle = new SymfonyStyle($input, $output);
 
+        $symfonyStyle->section('Subscribers');
         VarDumper::dump($this->subscriberStorage->getSubscriberCollection());
 
+        $symfonyStyle->section('Surveys');
         foreach ($this->surveyStorage->getSurveyCollection()->getSurveys() as $survey) {
             VarDumper::dump($survey);
         }
