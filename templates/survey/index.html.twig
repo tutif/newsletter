@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SurveyController!{% endblock %}
+
+{% block body %}
+<h1>{{ subscriber.name }}, please choose your newsletter topics!</h1>
+
+<p>The topics you select will periodically be sent to {{ subscriber.email }}.</p>
+
+{{ form(form) }}
+
+{% endblock %}

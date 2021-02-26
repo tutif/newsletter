@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New user{% endblock %}
+
+{% block body %}
+    <h1>Hello there and welcome to my newsletter!</h1>
+
+    <p>
+        I am super happy that you've visited my newsletter.
+    </p>
+
+    <p>
+        In order for you to receive updates to your email, kindly please fill out
+        the form below to create your subscription.
+    </p>
+
+    {{ form(form) }}
+{% endblock %}
